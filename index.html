@@ -76,7 +76,62 @@
                     }
                 );
 
+
+
+                // Create Appointment resource
+                client.create(dummyAppointment(), {})
+                .then(
+                    function(data) {
+                    console.log(data);
+                });
+
             }).catch(console.error);
+
+            function dummyAppointment()
+            {
+                return {
+                "resourceType": "Appointment",
+                "status": "proposed",
+                "serviceType": [
+                    {
+                    "coding": [
+                        {
+                        "code": "408443003",
+                        "system": "http://snomed.info/sct"
+                        }
+                    ]
+                    }
+                ],
+                "reasonCode": [
+                    {
+                    "text": "I have a cramp"
+                    }
+                ],
+                "comment": "Appointment request comment",
+                "participant": [
+                    {
+                    "actor": {
+                        "reference": "Patient/12724065"
+                    },
+                    "status": "needs-action"
+                    },
+                    {
+                    "actor": {
+                        "reference": "Location/21304876",
+                        "display": "MX Clinic 1"
+                    },
+                    "status": "needs-action"
+                    }
+                ],
+                "requestedPeriod": [
+                    {
+                    "start": "2020-02-07T13:28:17-05:00",
+                    "end": "2021-02-07T13:28:17-05:00"
+                    }
+                ]
+                };
+            }
+                        
         </script>
     </body>
 </html>
