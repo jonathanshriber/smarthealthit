@@ -5,7 +5,7 @@
         <title>Example SMART App</title>
         <script src="https://cdn.jsdelivr.net/npm/fhirclient/build/fhir-client.js"></script>
         <style>
-            #patient, #meds, #appointments, #slots {
+            #patient, #meds, #appointments, #slots, #schedules {
                 font-family: Monaco, monospace;
                 white-space: pre;
                 font-size: 13px;
@@ -26,7 +26,10 @@
         <div id="appointments">Loading...</div>
         <br/>
         <h4>Slots</h4>
-        <div id="slots">Loading...</div>           
+        <div id="slots">Loading...</div>
+        <br/>
+        <h4>Schedules</h4>
+        <div id="schedules">Loading...</div>
         <script type="text/javascript">
             FHIR.oauth2.ready().then(function(client) {
                 
@@ -136,6 +139,30 @@
                     },
                     function(error) {
                         document.getElementById("slots").innerText = error.stack;
+                    }
+                );
+
+
+
+                
+                // get Schedule
+                client.request("/Schedule?_id=31732041-21304876-63506106-0", {})
+
+                // Reject if no Schedules are found
+                .then(function(data) {
+                    if (!data.entry || !data.entry.length) {
+                        throw new Error("No schedules found for the selected patient");
+                    }
+                    return data.entry;
+                })
+
+                // Render the current patient's schedules (or any error)
+                .then(
+                    function(schedules) {
+                        document.getElementById("schedules").innerText = JSON.stringify(schedules, null, 4);
+                    },
+                    function(error) {
+                        document.getElementById("schedules").innerText = error.stack;
                     }
                 );                
 
