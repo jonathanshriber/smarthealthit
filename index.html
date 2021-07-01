@@ -5,7 +5,7 @@
         <title>Example SMART App</title>
         <script src="https://cdn.jsdelivr.net/npm/fhirclient/build/fhir-client.js"></script>
         <style>
-            #patient, #meds, #appointments {
+            #patient, #meds, #appointments, #slots {
                 font-family: Monaco, monospace;
                 white-space: pre;
                 font-size: 13px;
@@ -23,7 +23,10 @@
         <div id="meds">Loading...</div>
         <br/>
         <h4>Appointments</h4>
-        <div id="appointments">Loading...</div>      
+        <div id="appointments">Loading...</div>
+        <br/>
+        <h4>Slots</h4>
+        <div id="slots">Loading...</div>           
         <script type="text/javascript">
             FHIR.oauth2.ready().then(function(client) {
                 
@@ -91,12 +94,9 @@
 
                 
                 // get created Appointment
-                // Cerner code console does not offer scope for MedicationRequest - MedicationStatement instead
-                // Get MedicationStatements for the selected patient
                 //client.request("/Appointment?patient=" + client.patient.id + "&_id=4829518", {})
                 client.request("/Appointment?_id=4829518", {})
-                
-                
+
                 // Reject if no Appointments are found
                 .then(function(data) {
                     if (!data.entry || !data.entry.length) {
@@ -105,13 +105,37 @@
                     return data.entry;
                 })
 
-                // Render the current patient's medications (or any error)
+                // Render the current patient's appointments (or any error)
                 .then(
                     function(appts) {
                         document.getElementById("appointments").innerText = JSON.stringify(appts, null, 4);
                     },
                     function(error) {
                         document.getElementById("appointments").innerText = error.stack;
+                    }
+                );
+
+
+
+                
+                // get Slot
+                client.request("/Slot?_id=31732041-21304876-63506106-0", {})
+
+                // Reject if no Slots are found
+                .then(function(data) {
+                    if (!data.entry || !data.entry.length) {
+                        throw new Error("No slots found for the selected patient");
+                    }
+                    return data.entry;
+                })
+
+                // Render the current patient's slots (or any error)
+                .then(
+                    function(slots) {
+                        document.getElementById("slots").innerText = JSON.stringify(slots, null, 4);
+                    },
+                    function(error) {
+                        document.getElementById("slots").innerText = error.stack;
                     }
                 );                
 
