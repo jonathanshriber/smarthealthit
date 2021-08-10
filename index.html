@@ -95,6 +95,15 @@
                 //===================================================================================================================
 
 
+
+                //== Patient create =============================================================================================
+                client.create(getPatientTemplate(), {})
+                .then(
+                    function(data) {
+                    console.log(data);
+                });
+                //===================================================================================================================
+
                 
                 // get created Appointment
                 //client.request("/Appointment?patient=" + client.patient.id + "&_id=4829518", {})
@@ -187,6 +196,104 @@
                 }]
                 };
             }
+
+            function getPatientTemplate()
+            {
+                return {
+                    "resourceType": "Patient",
+                    "identifier": [
+                        {
+                        "assigner": {
+                            "reference": "Organization/685844"
+                        }
+                        }
+                    ],
+                    "active": true,
+                    "name": [
+                        {
+                        "use": "official",
+                        "family": [
+                            "ShriberTest"
+                        ],
+                        "given": [
+                            "JonathanTest",
+                            "Name"
+                        ],
+                        "period": {
+                            "start": "2010-05-17T14:54:31.000Z"
+                        }
+                        },
+                        {
+                        "use": "usual",
+                        "given": [
+                            "JohnnyBoyTest"
+                        ],
+                        "period": {
+                            "start": "2012-05-22T15:45:50.000Z"
+                        }
+                        }
+                    ],
+                    "telecom": [
+                        {
+                        "system": "phone",
+                        "value": "7816460000",
+                        "use": "home",
+                        "period": {
+                            "start": "2012-05-17T15:33:18.000Z"
+                        }
+                        }
+                    ],
+                    "gender": "male",
+                    "birthDate": "1990-09-15",
+                    "address": [
+                        {
+                        "use": "home",
+                        "line": [
+                            "456 Credibility Street",
+                            "Apartment 3D"
+                        ],
+                        "city": "Boston",
+                        "district": "Suffolk County",
+                        "state": "MA",
+                        "postalCode": "02134",
+                        "country": "United States of America",
+                        "period": {
+                            "start": "2012-05-17T15:33:18.000Z"
+                        }
+                        }
+                    ],
+                    "maritalStatus": {
+                        "coding": [
+                        {
+                            "system": "http://hl7.org/fhir/v3/NullFlavor",
+                            "code": "UNK",
+                            "display": "Unknown"
+                        }
+                        ],
+                        "text": "Unknown"
+                    },
+                    "communication": [
+                        {
+                        "language": {
+                            "coding": [
+                            {
+                                "system": "urn:ietf:bcp:47",
+                                "code": "en",
+                                "display": "English"
+                            }
+                            ],
+                            "text": "English"
+                        },
+                        "preferred": true
+                        }
+                    ],
+                    "careProvider": [
+                        {
+                        "reference": "Practitioner/593923"
+                        }
+                    ]
+                }
+            }            
                         
         </script>
     </body>
