@@ -96,8 +96,26 @@
 
 
 
-                //== Patient create =============================================================================================
-                client.create(getPatientTemplate(), {})
+                //== Patient create =================================================================================================
+                // client.create(getPatientTemplate(), {})
+                // .then(
+                //     function(data) {
+                //     console.log(data);
+                // });
+                //===================================================================================================================
+
+                //== Patient update =================================================================================================
+                var newPhone = {
+                    "system": "phone",
+                    "value": "6175490000",
+                    "use": "cell",
+                    "period": {
+                        "start": "2015-04-01T00:00:00.000Z"
+                    }
+                };
+                var pat = getPatientTemplate();
+                pat.telecom.push(newPhone);
+                client.update(pat, {})
                 .then(
                     function(data) {
                     console.log(data);
