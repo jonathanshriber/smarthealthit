@@ -115,6 +115,7 @@
                 };
                 var pat = getPatientTemplate();
                 pat.telecom.push(newPhone);
+                pat.id = '12763342';
                 client.update(pat, {})
                 .then(
                     function(data) {
